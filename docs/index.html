@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>lua-ssllabs documentation</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>lua-ssllabs</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Libraries</h2>
+<ul class="nowrap">
+  <li><strong>ssllabs</strong></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="examples/demo.lua.html">demo.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>ssllabs</code></h1>
+<p>Lua module for the Qualys SSL Labs Server Test</p>
+<p>
+
+</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2018</li>
+        <li><strong>License</strong>: MIT</li>
+        <li><strong>Author</strong>: imo</li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#info">info ()</a></td>
+	<td class="summary">Check availability of the SSL Labs servers
+ and some other data like software version.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#analyze">analyze (opts)</a></td>
+	<td class="summary">Invoke assessment and check progress.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_endpoint_data">get_endpoint_data (opts)</a></td>
+	<td class="summary">Retrieve detailed endpoint information.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_status_codes">get_status_codes ()</a></td>
+	<td class="summary">Retrieve known status codes.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_root_certs_raw">get_root_certs_raw ()</a></td>
+	<td class="summary">Retrieve root certificates.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "info"></a>
+    <strong>info ()</strong>
+    </dt>
+    <dd>
+    Check availability of the SSL Labs servers
+ and some other data like software version.  Implements the <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#check-ssl-labs-availability">info API call</a>
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#info">Info table</a>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> info = ssllabs.info()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "analyze"></a>
+    <strong>analyze (opts)</strong>
+    </dt>
+    <dd>
+    Invoke assessment and check progress.
+ This call is used to initiate an assessment, or to retrieve the status of an assessment in progress or in the cache.  Implements the <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#invoke-assessment-and-check-progress">analyze API call</a>
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">opts</span> options table with arguments
+        <ul>
+        <li><span class="parameter">host</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         hostname
+        </li>
+        <li><span class="parameter">publish</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+         if set to <code>&apos;on&apos;</code> or <code>true</code> the result will be published ont he public result boards.
+         (<em>default</em> 'off')
+        </li>
+        <li><span class="parameter">startNew</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+         if set to <code>&apos;on&apos;</code> or <code>true</code> a new assessment is started. However, if there's already an assessment in progress, its status is delivered instead.
+         (<em>default</em> 'off')
+        </li>
+        <li><span class="parameter">fromCache</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+         if set to <code>&apos;on&apos;</code> or <code>true</code> cached assessment reports will be returned.
+         (<em>default</em> 'on')
+        </li>
+        <li><span class="parameter">maxAge</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum report age, in hours, if retrieving from cache (<code>fromCache</code> parameter set).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">all</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         by default this call results only summaries of individual endpoints. If this parameter is set to <code>on</code>, full information will be returned. If set to <code>done</code>, full information will be returned only if the assessment is complete (status is <code>READY</code> or <code>ERROR</code>).
+         (<em>default</em> 'done')
+        </li>
+        <li><span class="parameter">ignoreMismatch</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+         set to <code>on</code> to proceed with assessments even when the server certificate doesn't match the assessment hostname. Please note that this parameter is ignored if a cached report is returned.
+         (<em>default</em> 'off')
+        </li>
+        </li></ul>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#host">Host table</a>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> result = ssllabs.analyze({
+  host = <span class="string">'example.com'</span>,
+  fromCache = <span class="keyword">true</span>,
+  maxAge = <span class="number">36</span>
+})</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "get_endpoint_data"></a>
+    <strong>get_endpoint_data (opts)</strong>
+    </dt>
+    <dd>
+    Retrieve detailed endpoint information.
+ This call is used to retrieve detailed endpoint information. Implements the <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#retrieve-detailed-endpoint-information">getEndpointData API call</a>
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">opts</span> options table with arguments
+        <ul>
+        <li><span class="parameter">host</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         hostname
+        </li>
+        <li><span class="parameter">s</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         endpoint IP address
+        </li>
+        <li><span class="parameter">fromCache</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+
+
+
+         (<em>default</em> 'off')
+        </li>
+        </li></ul>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#endpoint">Endpoint table</a>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> ep_data = ssllabs.get_endpoint_data()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "get_status_codes"></a>
+    <strong>get_status_codes ()</strong>
+    </dt>
+    <dd>
+    Retrieve known status codes.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#statuscodes">StatusCode table</a>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> code = ssllabs.get_status_codes()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "get_root_certs_raw"></a>
+    <strong>get_root_certs_raw ()</strong>
+    </dt>
+    <dd>
+    Retrieve root certificates.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        This call returns the root certificates used for trust validation.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> certs = ssllabs.get_root_certs_raw()</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2018-05-15 22:31:26 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
