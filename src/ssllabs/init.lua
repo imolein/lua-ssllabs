@@ -70,8 +70,7 @@ local function build_query(api, path, payload)
 end
 
 local function api_request(path, payload)
-  local api_url = 'https://api.dev.ssllabs.com/api/v3/'
-  --local api_url = 'https://api.ssllabs.com/api/v3/'
+  local api_url = 'https://api.ssllabs.com/api/v3/'
   local r_url = build_query(api_url, path, convert_bool_values(payload))
   local resp
   
