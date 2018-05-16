@@ -6,7 +6,8 @@ local ssll = require('ssllabs')
 local opts = {
   host = 'p.kokolor.es',
   publish = true,
-  startNew = false
+  startNew = false,
+  maxAge = 36
 }
 
 local function sleep(n)
@@ -22,7 +23,7 @@ if resp.status ~= 'READY' and resp.status ~= 'ERROR' then
   repeat
     -- get progress displayed per endpoint during assessment
     for _, v in ipairs(resp.endpoints) do
-      print(string.format('%s progess: %d', v.ipAddress, v.progress))
+      print(string.format('%s progess: %d', v.ipAddress, v.progress or 0))
     end
     sleep(30)
     resp = ssll.analyze(opts)

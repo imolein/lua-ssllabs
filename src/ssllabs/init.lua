@@ -7,7 +7,7 @@
 
 local requests = require('requests')
 local ssllabs = {
-  _VERSION      = 'lua-ssllabs 0.1',
+  _VERSION      = 'lua-ssllabs 0.1-1',
   _DESCRIPTION  = 'Lua module for the Qualys SSL Labs Server Test',
   _URL          = 'https://git.kokolor.es/imo/lua-ssllabs',
   _LICENCE      = [[
@@ -57,27 +57,15 @@ local function convert_bool_values(tbl)
   return converted
 end
 
-local function build_query(api, path, payload)
-  if not payload then return api .. path end
-  
-  local query = api .. path .. '?'
-  
-  for k, v in pairs(payload) do
-    query = query .. k .. '=' .. v .. '&'
-  end
-  
-  return query:sub(1,-2)
-end
-
 local function api_request(path, payload)
   local api_url = 'https://api.ssllabs.com/api/v3/'
-  local r_url = build_query(api_url, path, convert_bool_values(payload))
+  local payload = convert_bool_values(payload)
   local resp
   
   if path == 'getRootCertsRaw' then
-    resp = requests.get(r_url)
+    resp = requests.get({ url = api_url .. path, params = payload })
   else
-    resp = requests.get(r_url).json()
+    resp = requests.get({ url = api_url .. path, params = payload }).json()
   end
   
   return resp
@@ -119,7 +107,7 @@ function ssllabs.analyze(opts)
     fromCache = opts.fromCache or 'on',
     maxAge = opts.maxAge,
     all = opts.all or 'done',
-    ignoreMismatch = opts.ignorMismatch or 'off'
+    ignoreMismatch = opts.ignoreMismatch or 'off'
   }
   
   return api_request('analyze', payload)

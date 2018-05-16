@@ -1,6 +1,6 @@
 # lua-ssllabs
 
-A little lua library which provide an easy-to-use interface for the [Qualys SSL Labs Server Test API (v3)](https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#cert).
+A little lua library which provide an easy-to-use interface for the [Qualys SSL Labs Server Test API (v3)](https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md).
 Since I'm currently learning programming, this is a learning project for me, so expect some edges and not the prettiest code :)
 
 ## Documentation
