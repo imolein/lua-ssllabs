@@ -55,7 +55,7 @@
     <ul>
         <li><strong>Copyright</strong>: 2018</li>
         <li><strong>License</strong>: MIT</li>
-        <li><strong>Author</strong>: imo</li>
+        <li><strong>Author</strong>: Sebastian Huebner</li>
     </ul>
 
 
@@ -104,7 +104,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
         <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#info">Info table</a>
     </ol>
 
@@ -130,36 +130,36 @@
         <li><span class="parameter">opts</span> options table with arguments
         <ul>
         <li><span class="parameter">host</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          hostname
         </li>
         <li><span class="parameter">publish</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+            <span class="types"><span class="type">bool</span></span>
          if set to <code>&apos;on&apos;</code> or <code>true</code> the result will be published ont he public result boards.
-         (<em>default</em> 'off')
+         (<em>default</em> false)
         </li>
         <li><span class="parameter">startNew</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+            <span class="types"><span class="type">bool</span></span>
          if set to <code>&apos;on&apos;</code> or <code>true</code> a new assessment is started. However, if there's already an assessment in progress, its status is delivered instead.
-         (<em>default</em> 'off')
+         (<em>default</em> false)
         </li>
         <li><span class="parameter">fromCache</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+            <span class="types"><span class="type">bool</span></span>
          if set to <code>&apos;on&apos;</code> or <code>true</code> cached assessment reports will be returned.
-         (<em>default</em> 'on')
+         (<em>default</em> true)
         </li>
         <li><span class="parameter">maxAge</span>
             <span class="types"><span class="type">number</span></span>
          maximum report age, in hours, if retrieving from cache (<code>fromCache</code> parameter set).
-         (<em>optional</em>)
+         (<em>default</em> 10)
         </li>
         <li><span class="parameter">all</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          by default this call results only summaries of individual endpoints. If this parameter is set to <code>on</code>, full information will be returned. If set to <code>done</code>, full information will be returned only if the assessment is complete (status is <code>READY</code> or <code>ERROR</code>).
          (<em>default</em> 'done')
         </li>
         <li><span class="parameter">ignoreMismatch</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+            <span class="types"><span class="type">bool</span></span>
          set to <code>on</code> to proceed with assessments even when the server certificate doesn't match the assessment hostname. Please note that this parameter is ignored if a cached report is returned.
          (<em>default</em> 'off')
         </li>
@@ -169,7 +169,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
         <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#host">Host table</a>
     </ol>
 
@@ -199,19 +199,19 @@
         <li><span class="parameter">opts</span> options table with arguments
         <ul>
         <li><span class="parameter">host</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          hostname
         </li>
         <li><span class="parameter">s</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          endpoint IP address
         </li>
         <li><span class="parameter">fromCache</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">boolean</span></span>
+            <span class="types"><span class="type">bool</span></span>
 
 
 
-         (<em>default</em> 'off')
+         (<em>default</em> true)
         </li>
         </li></ul>
     </ul>
@@ -219,7 +219,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
         <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#endpoint">Endpoint table</a>
     </ol>
 
@@ -243,7 +243,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
         <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#statuscodes">StatusCode table</a>
     </ol>
 
@@ -267,7 +267,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
         This call returns the root certificates used for trust validation.
     </ol>
 
@@ -286,7 +286,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2018-05-15 22:31:26 </i>
+<i style="float:right;">Last updated 2018-07-16 17:36:29 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

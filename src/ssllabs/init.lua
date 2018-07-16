@@ -97,12 +97,12 @@ end
 -- This call is used to initiate an assessment, or to retrieve the status of an assessment in progress or in the cache.  Implements the [analyze API call](https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#invoke-assessment-and-check-progress)
 -- @tab opts options table with arguments
 -- @string opts.host hostname
--- @boolean[opt=false] opts.publish if set to `'on'` or `true` the result will be published ont he public result boards.
--- @boolean[opt=false] opts.startNew if set to `'on'` or `true` a new assessment is started. However, if there's already an assessment in progress, its status is delivered instead.
--- @boolean[opt=true] opts.fromCache if set to `'on'` or `true` cached assessment reports will be returned.
+-- @bool[opt=false] opts.publish if set to `'on'` or `true` the result will be published ont he public result boards.
+-- @bool[opt=false] opts.startNew if set to `'on'` or `true` a new assessment is started. However, if there's already an assessment in progress, its status is delivered instead.
+-- @bool[opt=true] opts.fromCache if set to `'on'` or `true` cached assessment reports will be returned.
 -- @number[opt=10] opts.maxAge maximum report age, in hours, if retrieving from cache (`fromCache` parameter set).
 -- @string[opt='done'] opts.all by default this call results only summaries of individual endpoints. If this parameter is set to `on`, full information will be returned. If set to `done`, full information will be returned only if the assessment is complete (status is `READY` or `ERROR`).
--- @boolean[opt='off'] opts.ignoreMismatch set to `on` to proceed with assessments even when the server certificate doesn't match the assessment hostname. Please note that this parameter is ignored if a cached report is returned.
+-- @bool[opt='off'] opts.ignoreMismatch set to `on` to proceed with assessments even when the server certificate doesn't match the assessment hostname. Please note that this parameter is ignored if a cached report is returned.
 -- @treturn table [Host table](https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#host)
 -- @usage local result = ssllabs.analyze({
 --   host = 'example.com',
@@ -141,7 +141,7 @@ end
 -- @tab opts options table with arguments
 -- @string opts.host hostname
 -- @string opts.s endpoint IP address
--- @boolean[opt=true] opts.fromCache
+-- @bool[opt=true] opts.fromCache
 -- @treturn table [Endpoint table](https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#endpoint)
 -- @usage local ep_data = ssllabs.get_endpoint_data()
 function ssllabs.get_endpoint_data(opts)
