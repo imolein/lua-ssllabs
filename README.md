@@ -9,4 +9,6 @@ The documentation was created with [ldoc](https://github.com/stevedonovan/LDoc).
 
 ## Dependencies
 
-lua (>=5.1), [lua-requests](https://github.com/JakobGreen/lua-requests)
+* lua (>=5.1)
+* lua-cjson (== 2.1.0-1)
+* [lua-requests](https://github.com/JakobGreen/lua-requests)

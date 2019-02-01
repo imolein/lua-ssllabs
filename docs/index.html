@@ -33,7 +33,7 @@
 </ul>
 
 
-<h2>Libraries</h2>
+<h2>Modules</h2>
 <ul class="nowrap">
   <li><strong>ssllabs</strong></li>
 </ul>
@@ -53,7 +53,7 @@
 </p>
     <h3>Info:</h3>
     <ul>
-        <li><strong>Copyright</strong>: 2018</li>
+        <li><strong>Copyright</strong>: 2019</li>
         <li><strong>License</strong>: MIT</li>
         <li><strong>Author</strong>: Sebastian Huebner</li>
     </ul>
@@ -69,6 +69,14 @@
 	<tr>
 	<td class="name" nowrap><a href="#analyze">analyze (opts)</a></td>
 	<td class="summary">Invoke assessment and check progress.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#from_cache">from_cache (host[, maxAge])</a></td>
+	<td class="summary">Retrieve cached assessment report.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#new_assessment">new_assessment (opts)</a></td>
+	<td class="summary">Start new assessment.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#get_endpoint_data">get_endpoint_data (opts)</a></td>
@@ -103,9 +111,15 @@
 
     <h3>Returns:</h3>
     <ol>
-
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#info">Info table</a>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#info">Info table</a> / In case of error nil</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        error status code</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        error status message</li>
     </ol>
 
 
@@ -135,7 +149,7 @@
         </li>
         <li><span class="parameter">publish</span>
             <span class="types"><span class="type">bool</span></span>
-         if set to <code>&apos;on&apos;</code> or <code>true</code> the result will be published ont he public result boards.
+         if set to <code>&apos;on&apos;</code> or <code>true</code> the result will be published on the public result boards.
          (<em>default</em> false)
         </li>
         <li><span class="parameter">startNew</span>
@@ -161,16 +175,22 @@
         <li><span class="parameter">ignoreMismatch</span>
             <span class="types"><span class="type">bool</span></span>
          set to <code>on</code> to proceed with assessments even when the server certificate doesn't match the assessment hostname. Please note that this parameter is ignored if a cached report is returned.
-         (<em>default</em> 'off')
+         (<em>default</em> false)
         </li>
         </li></ul>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
-
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#host">Host table</a>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#host">Host table</a></li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <span class="type">number</span></span>
+        error status code</li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        error status message</li>
     </ol>
 
 
@@ -181,6 +201,104 @@
   host = <span class="string">'example.com'</span>,
   fromCache = <span class="keyword">true</span>,
   maxAge = <span class="number">36</span>
+})</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "from_cache"></a>
+    <strong>from_cache (host[, maxAge])</strong>
+    </dt>
+    <dd>
+    Retrieve cached assessment report.
+ Short for <code>ssllabs.analyze({host = host, fromCache = true})</code>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">host</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         hostname
+        </li>
+        <li><span class="parameter">maxAge</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum report age, in hours, if retrieving from cache (<code>fromCache</code> parameter set).
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#host">Host table</a></li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <span class="type">number</span></span>
+        error status code</li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        error status message</li>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> result = ssllabs.from_cache(<span class="string">'example.com'</span>, <span class="number">36</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "new_assessment"></a>
+    <strong>new_assessment (opts)</strong>
+    </dt>
+    <dd>
+    Start new assessment.
+ Short for <code>ssllabs.analyze({host = host, startNew = true})</code>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">opts</span> options table with arguments
+        <ul>
+        <li><span class="parameter">host</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         hostname
+        </li>
+        <li><span class="parameter">publish</span>
+            <span class="types"><span class="type">bool</span></span>
+         if set to <code>&apos;on&apos;</code> or <code>true</code> the result will be published on the public result boards.
+         (<em>default</em> false)
+        </li>
+        <li><span class="parameter">ignoreMismatch</span>
+            <span class="types"><span class="type">bool</span></span>
+         set to <code>on</code> to proceed with assessments even when the server certificate doesn't match the assessment hostname. Please note that this parameter is ignored if a cached report is returned.
+         (<em>default</em> false)
+        </li>
+        </li></ul>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#host">Host table</a></li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <span class="type">number</span></span>
+        error status code</li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        error status message</li>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> result = ssllabs.new_assessment({
+  host = <span class="string">'example.com'</span>,
+  publish = <span class="keyword">true</span>,
+  ignoreMismatch = <span class="keyword">false</span>
 })</pre>
     </ul>
 
@@ -218,9 +336,15 @@
 
     <h3>Returns:</h3>
     <ol>
-
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#endpoint">Endpoint table</a>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#endpoint">Endpoint table</a></li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <span class="type">number</span></span>
+        error status code</li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        error status message</li>
     </ol>
 
 
@@ -242,9 +366,15 @@
 
     <h3>Returns:</h3>
     <ol>
-
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#statuscodes">StatusCode table</a>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        <a href="https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md#statuscodes">StatusCode table</a></li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <span class="type">number</span></span>
+        error status code</li>
+        <li>
+           <span class="types"><span class="type">nil</span> or <a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        error status message</li>
     </ol>
 
 
@@ -286,7 +416,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2018-07-16 17:36:29 </i>
+<i style="float:right;">Last updated 2019-02-01 09:40:10 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

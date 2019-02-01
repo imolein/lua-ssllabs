@@ -2,28 +2,33 @@
 package.path = './src/?.lua;./src/?/init.lua;' .. package.path
 
 local ssll = require('ssllabs')
--- define options for API call
-local opts = {
-  host = 'p.kokolor.es',
-  publish = true,
-  startNew = false,
-  maxAge = 36
-}
 
 local function sleep(n)
   os.execute('sleep ' .. tonumber(n))
 end
 
+local opts = {
+  host = 'edolas.world',
+  publish = false,
+  startNew = false
+}
+
 -- start new assessment for host 'httpbin.com' and publish the result on the public board
-local resp = ssll.analyze(opts)
+local resp, err, msg = ssll.analyze(opts)
+
+if err then print(msg) end
 
 -- if status is not READY or ERROR
 if resp.status ~= 'READY' and resp.status ~= 'ERROR' then
+  -- remove startNew option, to prevent assessment looping
+  opts.startNew = false
+  
   -- check every 30s if assessment is ready or failed
   repeat
+    print(test)
     -- get progress displayed per endpoint during assessment
     for _, v in ipairs(resp.endpoints) do
-      print(string.format('%s progess: %d', v.ipAddress, v.progress or 0))
+      print(string.format('%s progess: %d%%', v.ipAddress, v.progress or 0))
     end
     sleep(30)
     resp = ssll.analyze(opts)
