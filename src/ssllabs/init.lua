@@ -43,7 +43,7 @@ local function check_options(pl)
   elseif pl.maxAge and not pl.fromCache then
     return nil, 'maxAge expects fromCache parameter to be true.'
   end
-  
+
   return pl
 end
 
@@ -68,7 +68,7 @@ local function api_request(path, payload)
   payload = payload and bool_to_parameter(payload)
 
   local resp
-  
+
   resp = requests.get({ url = API .. path, params = payload })
 
   if resp.status_code ~= 200 then
@@ -77,11 +77,11 @@ local function api_request(path, payload)
 
   if resp.headers['content-type']:find('application/json', nil, true) then
     local jresp = resp.json()
-    
+
     if jresp.errors then
       return nil, 400, string.format('Invocation Error - API returned: %s', jresp.errors.message)
     end
-    
+
     return jresp
   else
     return resp.text
@@ -131,7 +131,7 @@ function ssllabs.analyze(opts)
     all = opts.all,
     ignoreMismatch = opts.ignoreMismatch
   }
-  
+
   check_options(payload)
 
   return api_request('analyze', assert(check_options(payload)))
@@ -188,7 +188,7 @@ end
 -- @usage local ep_data = ssllabs.get_endpoint_data()
 function ssllabs.get_endpoint_data(opts)
   assert(opts.host and opts.s, 'host and endpoint IP address required.')
-  
+
   setmetatable(opts, { __index = DEFAULTS })
 
   local payload = {
