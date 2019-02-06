@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>lua-ssllabs documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>lua-ssllabs</h1>
+
+
+
+
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/demo.lua.html">demo.lua</a></li>
+  <li><strong>demo_co.lua</strong></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../index.html">ssllabs</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>demo_co.lua</h2>
+<pre>
+<span class="comment">-- Start assessments for multiple host and wait until all are finished
+</span>
+<span class="comment">-- setup path to find the project src files
+</span><span class="global">package</span>.path = <span class="string">'./src/?.lua;./src/?/init.lua;'</span> .. <span class="global">package</span>.path
+
+<span class="keyword">local</span> ssll = <span class="global">require</span>(<span class="string">'ssllabs'</span>)
+
+<span class="comment">-- hosts to check
+</span><span class="keyword">local</span> hosts = {
+  <span class="string">'edolas.world'</span>,
+  <span class="string">'blog.kokolor.es'</span>
+}
+
+<span class="keyword">local</span> checks = {}
+<span class="keyword">local</span> finished = {}
+
+<span class="keyword">local</span> <span class="keyword">function</span> sleep(n)
+  <span class="global">os</span>.execute(<span class="string">'sleep '</span> .. <span class="global">tonumber</span>(n))
+<span class="keyword">end</span>
+
+<span class="comment">-- creates coroutine per host, which calls the analyze() API endpoint
+</span><span class="comment">-- and add them to the checks table
+</span><span class="keyword">local</span> <span class="keyword">function</span> check(opts)
+  <span class="global">table</span>.insert(checks, <span class="global">coroutine</span>.create(<span class="keyword">function</span>()
+    <span class="keyword">local</span> resp, err, msg = ssll.analyze(opts)
+
+    opts.startNew = <span class="keyword">nil</span>
+
+    <span class="keyword">while</span> <span class="keyword">true</span> <span class="keyword">do</span>
+      <span class="keyword">if</span> err <span class="keyword">then</span> <span class="keyword">return</span> err, msg <span class="keyword">end</span>
+
+      <span class="global">coroutine</span>.yield(resp)
+
+      resp, err, msg = ssll.analyze(opts)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>))
+<span class="keyword">end</span>
+
+<span class="comment">-- runs each coroutine in checks table
+</span><span class="keyword">local</span> <span class="keyword">function</span> run()
+  <span class="keyword">while</span> <span class="keyword">true</span> <span class="keyword">do</span>
+    <span class="keyword">local</span> noc = #checks
+
+    <span class="keyword">if</span> noc == <span class="number">0</span> <span class="keyword">then</span> <span class="keyword">break</span> <span class="keyword">end</span>
+
+    <span class="keyword">for</span> i = <span class="number">1</span>, noc <span class="keyword">do</span>
+      <span class="keyword">local</span> _, resp = <span class="global">coroutine</span>.resume(checks[i])
+
+      <span class="comment">-- if assessment is finished, add the result table to the finished
+</span>      <span class="comment">-- table with the host as key
+</span>      <span class="keyword">if</span> resp.status == <span class="string">'READY'</span> <span class="keyword">or</span> resp.status == <span class="string">'ERROR'</span> <span class="keyword">then</span>
+        finished[resp.host] = resp
+        <span class="global">table</span>.remove(checks, i)
+        <span class="global">print</span>(resp.host .. <span class="string">' assessment finished!'</span>)
+
+        <span class="keyword">break</span>
+      <span class="keyword">end</span>
+
+      <span class="global">print</span>(resp.host .. <span class="string">' in progress...'</span>)
+    <span class="keyword">end</span>
+
+    sleep(<span class="number">10</span>)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- calls the check function for each host
+</span><span class="keyword">for</span> _, h <span class="keyword">in</span> <span class="global">ipairs</span>(hosts) <span class="keyword">do</span>
+  check ({ host = h, publish = <span class="keyword">true</span>, startNew = <span class="keyword">true</span> })
+<span class="keyword">end</span>
+
+<span class="comment">-- run it
+</span>run()
+
+<span class="comment">-- print grade for each host and it's endpoints
+</span><span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">pairs</span>(finished) <span class="keyword">do</span>
+  <span class="keyword">for</span> _, e <span class="keyword">in</span> <span class="global">ipairs</span>(v.endpoints) <span class="keyword">do</span>
+    <span class="global">print</span>(k, e.ipAddress, e.grade)
+  <span class="keyword">end</span>
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-02-06 20:15:45 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

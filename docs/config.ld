@@ -8,5 +8,6 @@ format = 'discount'
 sort_modules = true
 kind_names = { topic = 'Manual', script = 'Programs' }
 examples = {
-  '../examples/demo.lua'
+  '../examples/demo.lua',
+  '../examples/demo_co.lua'
 }
