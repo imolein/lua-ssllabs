@@ -132,8 +132,6 @@ function ssllabs.analyze(opts)
     ignoreMismatch = opts.ignoreMismatch
   }
 
-  check_options(payload)
-
   return api_request('analyze', assert(check_options(payload)))
 end
 
