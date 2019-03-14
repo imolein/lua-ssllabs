@@ -1,3 +1,5 @@
+-- Start a new assessment and wait until it is finished
+
 -- setup path to find the project src files
 package.path = './src/?.lua;./src/?/init.lua;' .. package.path
 
@@ -9,11 +11,11 @@ end
 
 local opts = {
   host = 'edolas.world',
-  publish = false,
-  startNew = false
+  publish = true,
+  startNew = true
 }
 
--- start new assessment for host 'httpbin.com' and publish the result on the public board
+-- start new assessment for host 'edolas.world' and publish the result on the public board
 local resp, err, msg = ssll.analyze(opts)
 
 if err then print(msg) end
@@ -22,10 +24,9 @@ if err then print(msg) end
 if resp.status ~= 'READY' and resp.status ~= 'ERROR' then
   -- remove startNew option, to prevent assessment looping
   opts.startNew = false
-  
+
   -- check every 30s if assessment is ready or failed
   repeat
-    print(test)
     -- get progress displayed per endpoint during assessment
     for _, v in ipairs(resp.endpoints) do
       print(string.format('%s progess: %d%%', v.ipAddress, v.progress or 0))
@@ -36,7 +37,7 @@ if resp.status ~= 'READY' and resp.status ~= 'ERROR' then
 end
 
 -- if failed, print the statusMessage
-if resp.status == 'ERROR' then 
+if resp.status == 'ERROR' then
   print(resp.statusMessage)
   os.exit(1)
 end
@@ -45,4 +46,3 @@ end
 for _, v in ipairs(resp.endpoints) do
   print(string.format('%s grade: %s', v.ipAddress, v.grade))
 end
- 
